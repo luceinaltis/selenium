@@ -21,13 +21,16 @@ class GoogleKeywordScreenshooter():
         search_bar.send_keys(self.keyword)
         search_bar.send_keys(Keys.ENTER)
 
-        trash_element = WebDriverWait(self.browser, 10).until(
-            EC.presence_of_element_located((By.CLASS_NAME, "g-blk")))
+        try:
+            trash_element = WebDriverWait(self.browser, 10).until(
+                EC.presence_of_element_located((By.CLASS_NAME, "g-blk")))
 
-        self.browser.execute_script("""
-            const remove_element = arguments[0]
-            remove_element.parentElement.removeChild(remove_element)
-        """, trash_element)
+            self.browser.execute_script("""
+                const remove_element = arguments[0]
+                remove_element.parentElement.removeChild(remove_element)
+            """, trash_element)
+        except Exception:
+            pass
 
         search_results = self.browser.find_element_by_id(
             "rso").find_elements_by_class_name("g")
